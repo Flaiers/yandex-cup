@@ -1,16 +1,16 @@
-# string = list(input().replace(' ', '')) #  HellO WorlD
-string = ['H', 'e', 'l', 'l', 'O', 'W', 'o', 'r', 'l', 'D']
+input = input()
+string = list(input.replace(' ', ''))
 
-space = string.count(' ')
-# lower = sum(map(str.islower, string))
-# upper = sum(map(str.isupper, string))
+space = input.count(' ')
 
+key_upper = []
+key_lower = []
 str_list = []
 
 for i in string:
     index = string.index(i)
     str_list.append({index: i})
-    print(f'{index} - {i}', 'upper' if i.isupper() else 'lower')
+    key_upper.append(index) if i.isupper() else key_lower.append(index)
     string[index] = None
 
-print(str_list)
+print(len(key_upper)*2 + len(key_lower) + space)
