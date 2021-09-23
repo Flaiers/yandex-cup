@@ -1,5 +1,6 @@
 import sys
 
+
 j = sys.stdin.readline().strip()
 s = sys.stdin.readline().strip()
 
