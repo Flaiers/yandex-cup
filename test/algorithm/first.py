@@ -3,26 +3,39 @@ string = list(input.replace(' ', ''))
 
 space = input.count(' ')
 
+caps_upper = []
 after_upper = []
-next_upper = []
-key_upper = []
+shift_upper = []
+uppers = []
 letters = []
 
 for char in string:
     index = string.index(char)
-    key_upper.append(index) if char.isupper() else letters.append(index)
+    uppers.append(index) if char.isupper() else letters.append(index)
     string[index] = None
 
-for i in key_upper:
+for i in uppers:
     try:
-        if key_upper[key_upper.index(i)+3] == i+3:
+        if uppers[uppers.index(i)+3] == i+3:
             after_upper.append(i)
         else:
-            next_upper.append(i)
+            shift_upper.append(i)
     except IndexError:
-        if key_upper[key_upper.index(i)-3] == i-3:
+        if uppers[uppers.index(i)-1] == i-1:
             after_upper.append(i)
         else:
-            next_upper.append(i)
+            shift_upper.append(i)
 
-print((2 + len(after_upper) + 2 + len(next_upper) if len(after_upper) else len(next_upper)*2) + len(letters) + space)
+row = []
+row.append(after_upper[0])
+
+for i in range(len(after_upper) - 1):
+    if after_upper[i] == after_upper[i + 1] - 1:
+        row.append(after_upper[i + 1])
+    else:
+        caps_upper.append(row)
+        row = []
+        row.append(after_upper[i + 1])
+caps_upper.append(row)
+
+# print((2 + len(after_upper) + 2 + len(shift_upper) if len(after_upper) else len(shift_upper)*2) + len(letters) + space)
