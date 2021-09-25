@@ -31,23 +31,27 @@ if len(uppers):
     matrix = get_matrix(uppers)
     for i in matrix:
         if len(i) < 5:
-            for j in i:
-                count += 2
+            if i[-1] + 1 in letters:
+                for j in i:
+                    count += 2
+            else:
+                caps_upper.append(i)
         else:
             caps_upper.append(i)
 
-    matrix = get_matrix(letters)
-    for n in caps_upper:
-        next = n[-1] + 1
-        if next in letters:
-            count += len(n)
-            for i in matrix:
-                if len(i) > 3:
-                    if next in i:
-                        count += 4
-                elif next in i:
-                    count += len(i)
-        else:
-            count += 2 + len(n)
+    matrix = get_matrix(letters) if len(letters) else []
+    if len(caps_upper):
+        for n in caps_upper:
+            next = n[-1] + 1
+            if next in letters:
+                count += len(n)
+                for i in matrix:
+                    if len(i) > 3:
+                        if next in i:
+                            count += 4
+                    elif next in i:
+                        count += len(i)
+            else:
+                count += 2 + len(n)
 
 print(count + len(letters))
