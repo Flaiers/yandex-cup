@@ -42,8 +42,9 @@ if len(uppers):
         if next in letters:
             count += len(n)
             for i in matrix:
-                if len(i) > 4:
-                    count += 4
+                if len(i) > 3:
+                    if next in i:
+                        count += 4
                 elif next in i:
                     count += len(i)
         else:
