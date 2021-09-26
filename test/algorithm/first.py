@@ -1,14 +1,9 @@
-input = input()
+count = action = 0; uppers = []; letters = []
+input = input(); space = input.count(' ')
 string = list(input.replace(' ', ''))
-count = input.count(' ')
-
-caps_upper = []
-letters = []
-uppers = []
 
 def get_matrix(list):
-    matrix = []
-    row = []
+    matrix = []; row = []
     row.append(list[0])
 
     for el in range(len(list) - 1):
@@ -27,31 +22,75 @@ for char in string:
     uppers.append(index) if char.isupper() else letters.append(index)
     string[index] = None
 
-if len(uppers):
-    matrix = get_matrix(uppers)
-    for i in matrix:
-        if len(i) < 5:
-            if i[-1] + 1 in letters:
-                for j in i:
-                    count += 2
+if len(letters) and len(uppers):
+    letters = get_matrix(letters)
+    uppers = get_matrix(uppers)
+
+    for i in letters:
+        for j in i:
+            if j == 0:
+                count += len(i)
+                letters.remove(i)
+
+    string = sorted(letters + uppers)
+
+    key_up = False
+
+    for indexes in string:
+        if string.index(indexes) % 2:
+            if string.index(indexes) + 1 < len(string):
+                if len(indexes) >= 4 or (len(indexes) >= 3 and len(string[string.index(indexes) + 1]) <= 2):
+                    if key_up:
+                        action += 2
+                        key_up = False
+                else:
+                    if key_up:
+                        action += len(indexes)
             else:
-                caps_upper.append(i)
+                if len(indexes) >= 4:
+                    if key_up:
+                        action += 2
+                        key_up = False
+                elif string.index(indexes) == len(string) - 1 and len(indexes) >= 3:
+                    if key_up:
+                        action += 2
+                        key_up = False
+                else:
+                    if key_up:
+                        action += len(indexes)
         else:
-            caps_upper.append(i)
-
-    matrix = get_matrix(letters) if len(letters) else []
-    if len(caps_upper):
-        for n in caps_upper:
-            next = n[-1] + 1
-            if next in letters:
-                count += len(n)
-                for i in matrix:
-                    if len(i) > 3:
-                        if next in i:
-                            count += 4
-                    elif next in i:
-                        count += len(i)
+            if string.index(indexes) + 1 < len(string):
+                if len(indexes) >= 4 or (len(indexes) >= 3 and len(string[string.index(indexes) + 1]) <= 2):
+                    if not key_up:
+                        action += 2
+                        key_up = True
+                else:
+                    if not key_up:
+                        action += len(indexes)
             else:
-                count += 2 + len(n)
+                if len(indexes) >= 4:
+                    if not key_up:
+                        action += 2
+                        key_up = True
+                elif string.index(indexes) == len(string) - 1 and len(indexes) >= 3:
+                    if not key_up:
+                        action += 2
+                        key_up = True
+                else:
+                    if not key_up:
+                        action += len(indexes)
 
-print(count + len(letters))
+        count += len(indexes)
+
+elif len(letters):
+    count += len(letters)
+
+elif len(uppers):
+    if len(uppers) <= 2:
+        action += len(uppers)
+        count += len(uppers)
+    else:
+        action += 2
+        count += len(uppers)
+
+print(space + count + action)
