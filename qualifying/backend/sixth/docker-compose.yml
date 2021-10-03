@@ -1,0 +1,15 @@
+version: '3.7'
+
+services:
+  db:
+    container_name: yandex_db
+    image: postgres
+    restart: always
+    ports:
+      - 5432:5432
+    volumes:
+      - ./db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=pass
+      - POSTGRES_USER=user
+      - POSTGRES_DB=yandex
